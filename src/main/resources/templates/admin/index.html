@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{master.html}">
+<head> 
+    <meta charset="utf-8">
+    <title>administrar articulos</title>
+
+	
+	
+	
+	
+	
+</head>
+<body>
+	
+	
+	<div layout:fragment="content">
+		
+		
+		
+		
+		
+		<div class="text-end">
+			<a href="/admin/articulos/nuevo" class="btn btn-primary mb-3">
+				Agregar Articulo
+				
+			</a>
+		</div>
+		<table class="table table-hover">
+			<thead class="">
+				<tr>
+					<th></th>
+					<th>Articulos</th>
+					<th>F.Lanzada:</th>
+					<th></th>
+					
+				</tr>
+			</thead>
+			<tbody>
+					<tr th:each="articulo:${articulos}" th:object="${articulo}">
+						<td style="width:150px;">
+							<a th:href="@{/assets/{filename}(filename=*{rutaPortada})}" data-fancybox>
+							<img th:src="@{/assets/{filename}(filename=*{rutaPortada})}" class="img-thumbnail w-100">
+							</a>
+						</td>
+						<td>
+							<div th:text="*{titulo}" class="fs-5 fw-bold"></div>
+							<p th:text="*{sinopsis}"></p>
+							<div>
+								<span class="badge rounded-pill bg-light text-dark me-1" th:each="categoria:*{categorias}" th:text="${categoria.titulo}"></span>
+							</div>
+						</td>
+						<td th:text="*{#temporals.format(fechaEstreno,'dd/MM/yyyy')}"></td>
+						
+						<td class="text-end">
+							<a th:href="@{/admin/articulos/{id}/editar(id=*{id})}">Editar</a>
+							<a href="javascript:void(0)" class="text-danger ms-3" th:onclick="'eliminarArticulo('+*{id}+')'">Eliminar</a>
+							<form th:id="'eliminarArticuloForm' +*{id} " th:action="@{/admin/articulos/{id}/eliminar(id=*{id})}" method="post" class="d-none">
+								
+							</form>
+						</td>
+					</tr>
+				</tbody>
+				
+	
+			
+		</table>
+		
+		
+		
+		
+	</div>
+	
+
+	
+	
+	<div layout:fragment="scripts" >
+		<script>
+			
+			function eliminarArticulo(id){
+				if(!confirm('Estas Seguro de eliminar este articulo?')){
+					return;
+				}
+				$('#eliminarArticuloForm' + id).submit();
+			}
+		</script>
+		
+		
+	</div>
+	
+	
+		
+		
+		
+		
+	
+</body>
+</html>
